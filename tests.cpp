@@ -3,82 +3,183 @@
 using namespace cv;
 using namespace std;
 
-TEST(firstGreater, testMaximumOfTwoValues)
+TEST(testMaximumOfTwoValues, firstGreater)
 {
     double maximum = returnMaximumOfTwoValues(5.24, 3.71);
-    EXPECT_EQ(5.24, maximum);
+    EXPECT_TRUE(abs(maximum - 5.24) < 0.00005);
 }
 
-void test_maximumOfTwoValues()
+TEST(testMaximumOfTwoValues, secondGreater)
 {
-    cout << returnMaximumOfTwoValues(5.321, 5.987);
+    double maximum = returnMaximumOfTwoValues(5.24, 7.63);
+    EXPECT_TRUE(abs(maximum - 7.63) < 0.00005);
 }
 
-void test_unitRemovedPoints()
+TEST(testMaximumOfTwoValues, equalNumbers)
 {
-    cout << returnUnitRemovedPoints(Point3d(0, 0, 0), Point3d(1, 1, 1), 2, 2);
+    double maximum = returnMaximumOfTwoValues(3, 3);
+    EXPECT_TRUE(abs(maximum - 3) < 0.00005);
+
 }
 
-void test_threeDimensionalDistance()
+TEST(testMaximumOfTwoValues, negativeNumbers)
 {
-    cout << "TESTS FOR CALCULATING DISTANCE OF POINTS FROM THE ORIGO" << endl;
-    Point3d s0(0, 0, 0);
-    Point3d s1(5, 0, 0);
-    Point3d s2(0, 4, 0);
-    Point3d s3(0, 0, 3);
-    cout << "s0 sample\t\t" << s0 << endl;
-    cout << "result\t\t\t" << returnThreeDimensionalDistance(s0) << endl;
-    cout << "s1 sample\t\t" << s1 << endl;
-    cout << "result\t\t\t" << returnThreeDimensionalDistance(s1) << endl;
-    cout << "s2 sample\t\t" << s2 << endl;
-    cout << "result\t\t\t" << returnThreeDimensionalDistance(s2) << endl;
-    cout << "s3 sample\t\t" << s3 << endl;
-    cout << "result\t\t\t" << returnThreeDimensionalDistance(s3) << endl;
-
-    cout << endl << "TESTS FOR CALCUALTING DISTANCES BETWEEN TWO 3D POINTS" << endl;
-    Point3d d01(5, 0, 5);
-    Point3d d02(5, 0, 0);
-    Point3d d11(1, 0, 0);
-    Point3d d12(0, 1, 0);
-    cout << "d01, d02 sample\t\t" << d01 << ", " << d02 << endl;
-    cout << "result\t\t\t" << returnThreeDimensionalDistance(d01, d02) << endl;
-    cout << "d11, d12 sample\t\t" << d11 << ", " << d12 << endl;
-    cout << "result\t\t\t" << returnThreeDimensionalDistance(d11, d12) << endl;
+    double maximum = returnMaximumOfTwoValues(-3.19, -0.37);
+    EXPECT_TRUE(abs(maximum - -0.37) < 0.00005);
 }
 
-void test_calculateCentroid()
+TEST(testMaximumOfTwoValues, oneNegativeOnePositive)
 {
-    Point3d a1(-3, 0, 0);
-    Point3d a2(7, 0, 0);
-    Point3d a3(5, 0, 0);
-    //az eredmenynek (3, 0, 0)-nak kell lennie
-    cout << "CENTROID_1D: " << returnCentroidOfThreePoints(1, a1, a2, a3) << endl;
-
-    a1 = Point3d(4, 2, 0);
-    a2 = Point3d(8, 7, 0);
-    a3 = Point3d(-1, -2, 0);
-    //az eredmenynek (3.666, 2.333, 0)-nak kell lennie
-    cout << "CENTROID_2D: " << returnCentroidOfThreePoints(2, a1, a2, a3) << endl;
-
-    a1 = Point3d(0, 2.0, 0);
-    a2 = Point3d(-sqrt(3), -1, 0);
-    a3 = Point3d(sqrt(3), -1, 0);
-    //az eredmenynek (0, 0, 0)-nak kell lennie
-    cout << "CENTROID_3D: " << returnCentroidOfThreePoints(3, a1, a2, a3) << endl;
+    double maximum = returnMaximumOfTwoValues(-19.42, 2.5);
+    EXPECT_TRUE(abs(maximum - 2.5) < 0.00005);
 }
 
-void test_matrixOfTwoVectors()
+TEST(testMaximumOfTwoValues, onePositiveOneNegative)
 {
-    Point3d first = Point3d(1, 2, 3);
-    Point3d second = Point3d(1, 2, 3);
+    double maximum = returnMaximumOfTwoValues(19.42, -2.5);
+    EXPECT_TRUE(abs(maximum - 19.42) < 0.00005);
+}
 
+TEST(testUnitRemovedPoints, origoPoints_1)
+{
+    Point3d p = returnUnitRemovedPoints(Point3d(0, 0, 0), Point3d(0, 0, 0), 1, 1);
+    EXPECT_TRUE(abs(p.x - 0) < 0.00005 && abs(p.y - 0) < 0.00005 && abs(p.z - 1) < 0.00005);
+}
+
+TEST(testUnitRemovedPoints, origoPoints_2)
+{
+    Point3d p = returnUnitRemovedPoints(Point3d(0, 0, 0), Point3d(0, 0, 0), 5, 5);
+    EXPECT_TRUE(abs(p.x - 0) < 0.00005 && abs(p.y - 0) < 0.00005 && abs(p.z - 1) < 0.00005);
+}
+
+TEST(testUnitRemovedPoints, aroundOrigo_1)
+{
+    Point3d p = returnUnitRemovedPoints(Point3d(10, 10, 0), Point3d(0, 0, 0), 1, 1);
+    EXPECT_TRUE(abs(p.x - 10) < 0.00005 && abs(p.y - 10) < 0.00005 && abs(p.z - 1) < 0.00005);
+}
+
+TEST(testUnitRemovedPoints, aroundOrigo_2)
+{
+    Point3d p = returnUnitRemovedPoints(Point3d(-10, 10, 0), Point3d(0, 0, 0), 1, 1);
+    EXPECT_TRUE(abs(p.x - -10) < 0.00005 && abs(p.y - 10) < 0.00005 && abs(p.z - 1) < 0.00005);
+}
+
+TEST(testUnitRemovedPoints, aroundOrigo_3)
+{
+    Point3d p = returnUnitRemovedPoints(Point3d(10, 10, 0), Point3d(0, 0, 0), 5, 2);
+    EXPECT_TRUE(abs(p.x - 2) < 0.00005 && abs(p.y - 5) < 0.00005 && abs(p.z - 1) < 0.00005);
+}
+
+TEST(testThreeDimensionalDistance1, origoPoint)
+{
+    double d = returnThreeDimensionalDistance(Point3d(0, 0, 0));
+    EXPECT_TRUE(abs(d - 0) < 0.00005);
+}
+
+TEST(testThreeDimensionalDistance1, firstQuartile)
+{
+    double d = returnThreeDimensionalDistance(Point3d(10, 5, 3));
+    EXPECT_TRUE(abs(d - sqrt(10*10+5*5+3*3)) < 0.00005);
+}
+
+TEST(testThreeDimensionalDistance1, secondQuartile)
+{
+    double d = returnThreeDimensionalDistance(Point3d(-4, 34, -1));
+    EXPECT_TRUE(abs(d - sqrt(4*4+34*34+1*1)) < 0.00005);
+}
+
+TEST(testThreeDimensionalDistance1, thirdQuartile)
+{
+    double d = returnThreeDimensionalDistance(Point3d(-4, -19, 1.22));
+    EXPECT_TRUE(abs(d - sqrt(4 * 4 + 19 * 19 + 1.22 * 1.22)) < 0.00005);
+}
+
+TEST(testThreeDimensionalDistance1, fourthQuartile)
+{
+    double d = returnThreeDimensionalDistance(Point3d(5.25, -6.11, -4.31));
+    EXPECT_TRUE(abs(d - sqrt(5.25 * 5.25 + 6.11 * 6.11 + 4.31 * 4.31)) < 0.00005);
+}
+
+TEST(testThreeDimensionalDistance2, firstAndSecondQuartile)
+{
+    double d = returnThreeDimensionalDistance(Point3d(26, 42, 13), Point3d(-21, 19, 42/15));
+    EXPECT_TRUE(abs(d - sqrt(pow(26+21, 2) + pow(42-19, 2) + pow(13 - 42/15, 2))) < 0.00005);
+}
+
+TEST(testThreeDimensionalDistance2, thirdAndFourthQuartile)
+{
+    double d = returnThreeDimensionalDistance(Point3d(-63, -37, -128), Point3d(89, -61, 0));
+    EXPECT_TRUE(abs(d - sqrt(pow(-63 - 89, 2) + pow(-37 - -61, 2) + pow(-128 - 0, 2))) < 0.00005);
+}
+
+
+TEST(testCalculateCentroid, aroundOrigo1)
+{
+    Point3d p = returnCentroidOfThreePoints(1, Point3d(0, 1, 0), Point3d(-1 / sqrt(2), -1 / sqrt(2), 0), Point3d(1 / sqrt(2), -1 / sqrt(2), 0));
+    EXPECT_EQ(0, p.y);
+    EXPECT_EQ(0, p.z);
+    EXPECT_TRUE(abs(p.x - 0) < 0.00005 && abs(p.y - 0) < 0.00005 && abs(p.z - 0) < 0.00005);
+}
+
+TEST(testCalculateCentroid, aroundOrigo2)
+{
+    Point3d p = returnCentroidOfThreePoints(2, Point3d(0, 1, 0), Point3d(-sqrt(3) / 2, -1 / 2.0, 0), Point3d(sqrt(3) / 2, -1/2.0, 0));
+    EXPECT_EQ(0, p.z);
+    EXPECT_TRUE(abs(p.x - 0) < 0.00005 && abs(p.y - 0) < 0.00005 && abs(p.z - 0) < 0.00005);
+}
+
+TEST(testCalculateCentroid, aroundOrigo3)
+{
+    Point3d p = returnCentroidOfThreePoints(3, Point3d(0, -1, 0), Point3d(sqrt(3) / 2, 1 / 2.0, 0), Point3d(-sqrt(3) / 2, 1 / 2.0, 0));
+    EXPECT_TRUE(abs(p.x - 0) < 0.00005 && abs(p.y - 0) < 0.00005 && abs(p.z - 0) < 0.00005);
+}
+
+TEST(testCalculateCentroid, aroundOrigo4)
+{
+    Point3d p = returnCentroidOfThreePoints(3, Point3d(0, -1, 2), Point3d(sqrt(3) / 2, 1 / 2.0, 2), Point3d(-sqrt(3) / 2, 1 / 2.0, 2));
+    EXPECT_TRUE(abs(p.x - 0) < 0.00005 && abs(p.y - 0) < 0.00005 && abs(p.z - 2) < 0.00005);
+}
+
+TEST(testMatrixOfTwoVectors, zeros)
+{
     Mat ret;
-    returnMatrixOfTwoVectors(ret, first, second);
-
-    cout << ret;
+    returnMatrixOfTwoVectors(ret, Point3d(0, 0, 0), Point3d(21.3, -4.68, 37.6));
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            EXPECT_DOUBLE_EQ(0, ret.at<double>(i, j));
+        }
+    }
 }
 
-void test_drawablePoints()
+TEST(testMatrixOfTwoVectors, ones)
+{
+    Mat ret;
+    returnMatrixOfTwoVectors(ret, Point3d(1, 1, 1), Point3d(1, 1, 1));
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            EXPECT_DOUBLE_EQ(1, ret.at<double>(i, j));
+        }
+    }
+}
+
+TEST(testMatrixOfTwoVectors, sqaured)
+{
+    Mat ret;
+    returnMatrixOfTwoVectors(ret, Point3d(1, 2, 3), Point3d(1, 2, 3));
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            EXPECT_DOUBLE_EQ((i+1)*(j+1), ret.at<double>(i, j));
+        }
+    }
+}
+
+TEST(testDrawablePoints, window)
 {
     dlib::image_window win;
     win.set_background_color(50, 50, 50);
@@ -103,10 +204,11 @@ void test_drawablePoints()
     dlib::cv_image<dlib::bgr_pixel> info(bg);
 
     win.set_image(info);
-    win.wait_until_closed();
+    win.close_window();
+    EXPECT_TRUE(win.is_closed());
 }
 
-void test_facePose()
+TEST(testFacePose, first)
 {
 
     dlib::image_window win;
@@ -114,13 +216,10 @@ void test_facePose()
     win.set_size(640, 480);
     Mat bg;
     bg = imread("images/bg.jpg");
-    //
 
     Point3d righteye(50+320, -50+240, 0);
     Point3d lefteye(-50+320, -50+240, 0);
     Point3d nose(0+320, 20+240, 0);
-    cout << "AZ EREDETI PONTOK: " << endl;
-    cout << righteye << endl << lefteye << endl << nose << endl << endl;
 
     righteye.x -= 320;
     righteye.y -= 240;
@@ -131,14 +230,10 @@ void test_facePose()
     nose.x -= 320;
     nose.y -= 240;
     nose.z = 1;
-    cout << "A TRANSZFORMALT PONTOK: " << endl;
-    cout << righteye << endl << lefteye << endl << nose << endl << endl;
 
     righteye /= returnThreeDimensionalDistance(righteye);
     lefteye /= returnThreeDimensionalDistance(lefteye);
     nose /= returnThreeDimensionalDistance(nose);
-    cout << "EGY SUGARU GOMBRE VETITETT PONTOK: " << endl;
-    cout << righteye << endl << lefteye << endl << nose << endl << endl;
 
     double cos_ab = abs(righteye.dot(lefteye));
     double deg_ab = acos(cos_ab)*180 / dlib::pi;
@@ -147,18 +242,15 @@ void test_facePose()
     double cos_bc = abs(lefteye.dot(nose));
     double deg_bc = acos(cos_bc) * 180 / dlib::pi;
 
-    cout << "AB: " << cos_ab << ", " << deg_ab << endl;
-    cout << "AC: " << cos_ac << ", " << deg_ac << endl;
-    cout << "BC: " << cos_bc << ", " << deg_bc << endl;
-    cout << "sum: " << deg_ab + deg_ac + deg_bc << endl << endl;
+    EXPECT_TRUE(abs(180 - (deg_ab + deg_bc + deg_ac)) < 1);
 
-    //
     dlib::cv_image<dlib::bgr_pixel> info(bg);
     win.set_image(info);
-    win.wait_until_closed();
+    win.close_window();
+    EXPECT_TRUE(win.is_closed());
 
 }
-
+/*
 void test_sumOfAnglesBetweenThreePoints()
 {
     Point3d p1(5, 70, -100);
@@ -184,19 +276,23 @@ void test_anglesBetweenThreePoints()
         cout << rac[i] << endl;
     }
 }
+*/
 
-void test_rotateTwoSetOfPointsOnEachOther()
+TEST(testRotateTwoSetOfPoints, alongYAxis)
 {
-    Point3d r1(-10, -10, 2);
-    Point3d r2(10, -10, 1.91);
-    Point3d r3(0, 10, -2);
+    Point3d r1(0, 1, 0);
+    Point3d r2(-sqrt(3)/2, -1/2.0, 0);
+    Point3d r3(sqrt(3)/2, -1/2.0, 0);
 
-    Point3d p1(-50, -10, 70);
-    Point3d p2(60, -10, 70);
-    Point3d p3(-30, 30, 20);
+    Point3d p1(0, 1, 0);
+    Point3d p2(0, -1/2.0, sqrt(3)/2);
+    Point3d p3(0, -1/2.0, -sqrt(3)/2);
 
     Point3d rp = returnCentroidOfThreePoints(3, r1, r2, r3);
     Point3d cp = returnCentroidOfThreePoints(3, p1, p2, p3);
+
+    EXPECT_TRUE(Point3d(0, 0, 0) == rp);
+    EXPECT_TRUE(Point3d(0, 0, 0) == cp);
 
     p1 -= cp;
     p2 -= cp;
@@ -217,73 +313,69 @@ void test_rotateTwoSetOfPointsOnEachOther()
 
     Mat_<double> matrixOf_Rotation = USV.vt.t() * USV.u.t();
 
-    cout << matrixOf_Rotation << endl << endl;
+    EXPECT_DOUBLE_EQ(-1, matrixOf_Rotation.at<double>(2, 0));
+    EXPECT_DOUBLE_EQ(1, matrixOf_Rotation.at<double>(1, 1));
+    EXPECT_DOUBLE_EQ(1, matrixOf_Rotation.at<double>(0, 2));
 
-    Point d1 = returnDrawablePoint(p1, 1, 320, 240);
-    Point d2 = returnDrawablePoint(p2, 1, 320, 240);
-    Point d3 = returnDrawablePoint(p3, 1, 320, 240);
+    double rotationRadiansAroundXAxis = atan2(matrixOf_Rotation.at<double>(2, 1), matrixOf_Rotation.at<double>(2, 2));
+    double rotationRadiansAroundYAxis = atan2(-matrixOf_Rotation.at<double>(2, 0), sqrt(pow(matrixOf_Rotation.at<double>(2, 1), 2) + pow(matrixOf_Rotation.at<double>(2, 2), 2)));
+    double rotationRadiansAroundZAxis = atan2(matrixOf_Rotation.at<double>(1, 0), matrixOf_Rotation.at<double>(0, 0));
 
-    Mat_<double> q1 = matrixOf_Rotation * Mat_<double>(r1);
-    Mat_<double> q2 = matrixOf_Rotation * Mat_<double>(r2);
-    Mat_<double> q3 = matrixOf_Rotation * Mat_<double>(r3);
-
-    Point s1 = Point(q1.at<double>(0, 0) + 320, q1.at<double>(1, 0) + 240);
-    Point s2 = Point(q2.at<double>(0, 0) + 320, q2.at<double>(1, 0) + 240);
-    Point s3 = Point(q3.at<double>(0, 0) + 320, q3.at<double>(1, 0) + 240);
-
-    dlib::image_window win;
-    win.set_background_color(50, 50, 50);
-    win.set_size(640, 480);
-    Mat bg;
-    bg = imread("images/bg.jpg");
-
-    Scalar blueish = Scalar(255, 100, 100);
-    Scalar greenish = Scalar(100, 255, 100);
-    Scalar redish = Scalar(100, 100, 255);
-    circle(bg, d1, 10, blueish, 3);
-    circle(bg, d2, 10, greenish, 3);
-    circle(bg, d3, 10, redish, 3);
-    circle(bg, s1, 5, blueish, 2);
-    circle(bg, s2, 5, greenish, 2);
-    circle(bg, s3, 5, redish, 2);
-
-    dlib::cv_image<dlib::bgr_pixel> info(bg);
-
-    win.set_image(info);
-    win.wait_until_closed();
-
+    EXPECT_DOUBLE_EQ(0, rotationRadiansAroundXAxis * 180 / dlib::pi);
+    EXPECT_DOUBLE_EQ(90, rotationRadiansAroundYAxis * 180 / dlib::pi);
+    EXPECT_DOUBLE_EQ(0, rotationRadiansAroundZAxis * 180 / dlib::pi);
 }
 
-void test_meshPointsFromFile()
+TEST(testReadFromFile, faceMesh)
 {
-    ifstream input("pose_mean_shape.txt");
+    ifstream input("pose_mean_shape");
+    ASSERT_TRUE(input.is_open());
     Point3d points[49];
+    EXPECT_DOUBLE_EQ(49 * sizeof(Point3d), sizeof(points));
     returnMeshPointsFromAFile(points);
-    for (int i = 0; i < 49; i++)
-    {
-        cout << i+1 << ": " << points[i] << endl;
-    }
     input.close();
+    ASSERT_FALSE(input.is_open());
 }
 
-void test_cameraMatrixToAFile()
+TEST(testWriteMatrixToAFile, defaultMatrix)
 {
     Mat_<double> test_matrix = Mat_<double>::ones(3,3);
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            EXPECT_DOUBLE_EQ(1, test_matrix.at<double>(i, j));
+        }
+    }
     writeCameraMatrixToAFile(test_matrix);
-    cout << test_matrix << endl;
 
     ifstream in;
     string line;
     in.open("cameraMatrixFile");
+    ASSERT_TRUE(in.is_open());
     while (getline(in, line))
     {
-        cout << line << endl;
+        const char *temp = line.c_str();
+        EXPECT_STREQ("1 1 1 ", temp);
     }
     in.close();
+    ASSERT_FALSE(in.is_open());
 }
-/*
-void test_writeErrorFile(exception &e)
+
+TEST(testWriteErrorFile, errorFile)
 {
+    exception e = exception("This is an error message.");
     writeErrorFile(e);
+
+    ifstream err;
+    err.open("C:/Users/balin/Desktop/error_message.txt");
+    ASSERT_TRUE(err.is_open());
+
+    string firstLine;
+    getline(err, firstLine);
+    const char *firstCopy = firstLine.c_str();
+    EXPECT_STRCASEEQ("EXCEPTION THROWN: ", firstCopy);
+
+    err.close();
+    ASSERT_FALSE(err.is_open());
 }
-*/
