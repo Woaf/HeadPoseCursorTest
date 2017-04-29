@@ -16,6 +16,12 @@
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 
+#include <gtest\gtest.h>
+#include "../QtCursor/calculationFunctions.h"
+#include "../QtCursor/errorHandling.h"
+#include "../QtCursor/directoryAccessFunctions.h"
+#include "../QtCursor/fileHandlerFunctions.h"
+
 void test_maximumOfTwoValues();
 void test_unitRemovedPoints();
 void test_threeDimensionalDistance();

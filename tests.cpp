@@ -1,8 +1,13 @@
 #include "tests.h"
-#include "../HeadPoseCursor/ownFunctions.cpp"
-#include "../HeadPoseCursor/errorHandling.cpp"
 
 using namespace cv;
+using namespace std;
+
+TEST(firstGreater, testMaximumOfTwoValues)
+{
+    double maximum = returnMaximumOfTwoValues(5.24, 3.71);
+    EXPECT_EQ(5.24, maximum);
+}
 
 void test_maximumOfTwoValues()
 {
